@@ -62,34 +62,7 @@ func updateAwesomeSolo() {
 
 func updateAwesomeSoloNow() {
 	defer gulu.Panic.Recover(nil)
-	ok, blogCount, articleCount := updateAwesomeSoloReadme()
-	if ok {
-		updateAwesomeSoloRepo(blogCount, articleCount)
-	}
-}
-
-func updateAwesomeSoloRepo(blogCount, articleCount int) {
-	body := map[string]interface{}{
-		"name":        "awesome-solo",
-		"description": "🎸 展示大家漂亮的 Solo 博客！目前已收录 " + strconv.Itoa(blogCount) + " 个站点，共 " + strconv.Itoa(articleCount) + " 篇文章 📈",
-		"has_wiki":    false,
-		"has_issues":  true,
-	}
-
-	response, str, errors := gorequest.New().Patch("https://api.github.com/repos/88250/awesome-solo?access_token="+orgAk).
-		Set("User-Agent", UserAgent).Timeout(5 * time.Second).
-		SendMap(body).End()
-	if nil != errors {
-		logger.Errorf("update repo [88250/awesome-solo] failed: %v", errors[0])
-		return
-	}
-	if http.StatusOK != response.StatusCode {
-		logger.Errorf("update repo [88250/awesome-solo] status code [%d], body [%s]", response.StatusCode, str)
-		return
-	}
-
-	logger.Infof("updated repo [88250/awesome-solo]")
-	return
+	updateAwesomeSoloReadme()
 }
 
 func sortAwesomeSolo() (ret blogSlice) {
@@ -156,6 +129,8 @@ func updateAwesomeSoloReadme() (ok bool, blogCount, articleCount int) {
 	content += "\n注：\n\n"
 	content += "* 展示顺序按发布文章时间降序排列\n"
 	content += "* 通过 [Octocat](https://github.com/88250/octocat) 自动定时刷新，请勿 PR\n"
+
+	content = "<p align=\"center\">目前已收录 " + strconv.Itoa(blogCount) + " 个站点，共 " + strconv.Itoa(articleCount) + " 篇文章 📈</p>" + content
 
 	logger.Info("[awesome-solo]'s README.md content is [" + content + "]")
 
