@@ -130,7 +130,7 @@ func updateAwesomeSoloReadme() (ok bool, blogCount, articleCount int) {
 	content += "* 展示顺序按发布文章时间降序排列\n"
 	content += "* 通过 [Octocat](https://github.com/88250/octocat) 自动定时刷新，请勿 PR\n"
 
-	content = "<p align=\"center\">目前已收录 " + strconv.Itoa(blogCount) + " 个站点，共 " + strconv.Itoa(articleCount) + " 篇文章 📈</p>" + content
+	content = "<p align=\"center\">📈 目前已收录 " + strconv.Itoa(blogCount) + " 个站点，共 " + strconv.Itoa(articleCount) + " 篇文章</p>\n\n" + content
 
 	logger.Info("[awesome-solo]'s README.md content is [" + content + "]")
 
